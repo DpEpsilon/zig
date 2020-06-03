@@ -223,6 +223,10 @@ pub fn mprotect(address: [*]const u8, length: usize, protection: usize) usize {
     return syscall3(.mprotect, @ptrToInt(address), length, protection);
 }
 
+pub fn madvise(address: [*]const u8, length: usize, advice: u32) usize {
+    return syscall3(.madvise, @ptrToInt(address), length, advice);
+}
+
 pub fn munmap(address: [*]const u8, length: usize) usize {
     return syscall2(.munmap, @ptrToInt(address), length);
 }

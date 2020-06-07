@@ -154,6 +154,60 @@ pub const MAP_FIXED_NOREPLACE = 0x100000;
 /// For anonymous mmap, memory could be uninitialized
 pub const MAP_UNINITIALIZED = 0x4000000;
 
+/// No further special treatment
+pub const MADV_NORMAL = 0;
+
+/// Expect random page references
+pub const MADV_RANDOM = 1;
+
+/// Expect sequential page references
+pub const MADV_SEQUENTIAL = 2;
+
+/// Will need these pages
+pub const MADV_WILLNEED = 3;
+
+/// Don't need these pages
+pub const MADV_DONTNEED = 4;
+
+/// Free pages only if memory pressure
+pub const MADV_FREE = 8;
+
+/// Remove these pages and resources
+pub const MADV_REMOVE = 9;
+
+/// Do not inherit across fork
+pub const MADV_DONTFORK = 10;
+
+/// Do inherit across fork
+pub const MADV_DOFORK = 11;
+
+/// KSM may merge identical pages
+pub const MADV_MERGEABLE = 12;
+
+/// KSM may not merge identical pages
+pub const MADV_UNMERGEABLE = 13;
+
+/// Worth backing with hugepages
+pub const MADV_HUGEPAGE = 14;
+
+/// Not worth backing with hugepages
+pub const MADV_NOHUGEPAGE = 15;
+
+/// Explicity exclude from the core dump, overrides the coredump filter bits
+pub const MADV_DONTDUMP = 16;
+
+/// Clear the MADV_DONTDUMP flag
+pub const MADV_DODUMP = 17;
+
+/// Zero memory on fork, child only
+pub const MADV_WIPEONFORK = 18;
+
+/// Undo MADV_WIPEONFORK
+pub const MADV_KEEPONFORK = 19;
+
+/// Poison a page for testing
+pub const MADV_HWPOISON = 100;
+
 pub const FD_CLOEXEC = 1;
 
 pub const F_OK = 0;

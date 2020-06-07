@@ -3164,6 +3164,30 @@ pub fn mprotect(memory: []align(mem.page_size) u8, protection: u32) MProtectErro
     }
 }
 
+pub const MAdviseError = error{
+    TemporarilyUnavailable,
+    SystemResources,
+
+    /// advice is MADV_HWPOISON, but the caller does not have the CAP_SYS_ADMIN capability.
+    NotPermitted,
+} || UnexpectedError;
+
+/// `memory.len` must be page-aligned.
+pub fn madvise(memory: []align(mem.page_size) u8, advice: u32) MAdviseError!void {
+    assert(mem.isAligned(memory.len, mem.page_size));
+    switch (errno(system.madvise(memory.ptr, memory.len, advice))) {
+        0 => return,
+        EACCES => unreachable, // Address range not shared and writable.
+        EAGAIN => return error.TemporarilyUnavailable,
+        EBADF => unreachable, // Advice wrongly assumes mapping is to a file.
+        EINVAL => unreachable,
+        EIO => return error.SystemResources,
+        ENOMEM => return error.SystemResources,
+        EPERM => return error.NotPermitted,
+        else => |err| return unexpectedErrno(err),
+    }
+}
+
 pub const ForkError = error{SystemResources} || UnexpectedError;
 
 pub fn fork() ForkError!pid_t {
